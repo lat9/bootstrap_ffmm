@@ -1,0 +1,162 @@
+﻿<!doctype html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexible Footer Menu Multilingual 1.5</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h1>Flexible Footer Menu Multilingual 1.5</h1>
+          <div class="row">
+            <div class="text-center">
+              <a href="https://zen4all.nl" title="Zen4All" target="_blank"><img class="logo" alt="Zen4All" src="images/logo_zen4all.png" width="240" height="80"></a> <a href="http://zcadditions.com" target="_blank"><img class="logo" alt="logo1 (7K)" src="images/logo_zc_additions.png" height="80" width="270"></a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="tab-container">
+            <ul class="nav nav-tabs" data-tabs="tabs">
+              <li class="active"><a data-toggle="tab" href="#intro">Introduction</a></li>
+              <li><a data-toggle="tab" href="#install">Installation</a></li>
+              <li><a data-toggle="tab" href="#usage">Usage</a></li>
+              <li><a data-toggle="tab" href="#credits">Credits & History</a></li>
+              <li><a data-toggle="tab" href="#troubleshooting">Troubleshooting</a></li>
+              <li><a data-toggle="tab" href="#misc">Misc</a></li>
+              <li><a data-toggle="tab" href="#license">License</a></li>
+            </ul>
+            <div class="tab-content">
+              <div id="intro" class="tab-pane fade in active">
+                <h2>Flexible Footer Menu Multilingual</h2>
+                <p>This plug-in is free software. You can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.</p>
+                <p>This plug-in is offered in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p>
+                <p>See the GNU General Public License for more details. For a copy of the GNU General Public License, see http://www.gnu.org/licenses/.</p>
+              </div>
+              <div id="install" class="tab-pane fade">
+                <ol style="list-style-type: upper-latin">
+                  <li>Backup both your Zen Cart installation and database — this plugin will will modify both.</li>
+                  <li>Double-check the backup you just created. Better safe than sorry!</li>
+                  <li>Unzip the plugin's distribution zip-file into a temporary directory. Rename the "YOUR_TEMPLATE" directory to match your custom template's name and the "YOUR_ADMIN" directory to match your renamed admin folder.</li>
+                  <li>Your best approach for installing any new software is to use a local copy for your testing before deploying the changes to your live store. If you must install this directly on your live store, put your store into Maintenance Mode using your admin's Configuration->Maintenance Mode->Down for Maintenance setting, first. You'll then either copy the files to your local installation or use your FTP/SFTP program to copy the files to your hosted store.</li>
+                  <li>Check to see if your installation already has the following template-override file. If the file is not present, copy the file from the template_default directory; otherwise, use file-merging software to merge this plugin's changes into the file prior to copying:
+                    <ol>
+                      <li>/includes/templates/YOUR_TEMPLATE/common/tpl_footer.php</li>
+                    </ol>
+                  </li>
+                  <li>Sign into your Zen Cart admin.</li>
+                  <li>Copy the admin-level files to your store:
+                    <ol>
+                      <li>/YOUR_ADMIN/ffmm_install.php</li>
+                      <li>/YOUR_ADMIN/flexible_footer_menu.php</li>
+                      <li>/YOUR_ADMIN/includes/extra_datafiles/flexible_footer_menu_database_names.php</li>
+                      <li>/YOUR_ADMIN/includes/extra_datafiles/flexible_footer_menu_filenames.php</li>
+                      <li>/YOUR_ADMIN/includes/extra_datafiles/flexible_footer_sanitizer.php</li>
+                      <li>/YOUR_ADMIN/includes/functions/extra_functions/footer_menu_install_functions.php</li>
+                      <li>/YOUR_ADMIN/includes/functions/extra_functions/footer_menu_functions.php</li>
+                      <li>/YOUR_ADMIN/includes/languages/english/flexible_footer_menu.php</li>
+                      <li>/YOUR_ADMIN/includes/languages/english/extra_definitions/flexible_footer_menu.php</li>
+                    </ol>
+                  </li>
+                  <li>Copy the store-side files, now that the database table has been created:
+                    <ol>
+                      <li>/images/footer_images/facebook.png</li>
+                      <li>/images/footer_images/Home.png</li>
+                      <li>/images/footer_images/information.png</li>
+                      <li>/images/footer_images/instagram.png</li>
+                      <li>/images/footer_images/twitter.png</li>
+                      <li>/includes/extra_datafiles/flexible_footer_menu.php</li>
+                      <li>/includes/functions/extra_functions/flexible_footer_menu_functions.php</li>
+                      <li>/includes/modules/YOUR_TEMPLATE/flexible_footer_menu.php</li>
+                      <li>/includes/templates/YOUR_TEMPLATE/common/tpl_footer.php</li>
+                      <li>/includes/templates/YOUR_TEMPLATE/css/stylesheet_flexible_footer_menu.css</li>
+                      <li>/includes/templates/YOUR_TEMPLATE/templates/tpl_flexible_footer_menu.php</li></ol></li>
+                  <li>Click the Home Link</li>
+                  <li>Go to Tools>Flexible Footer Menu Install</li>
+                  <li>Follow the Install / Upgrade or Uninstall Instructions</li>
+                </ol>
+              </div>
+              <div id="configuration" class="tab-pane fade in">
+                <p>configuration</p>
+              </div>
+              <div id="usage" class="tab-pane fade in">
+                empty
+              </div>
+              <div id="credits" class="tab-pane fade in">
+                <h2>Changelog</h2>
+                <p>Version 1.5 09-01-2019 Zen4All</p>
+                <ul>
+                  <li>Fixed a bu in the sanitizer</li>
+                  <li>Update the files to Zen Cart 1.5.6</li>
+                  <li></li>
+                </ul>
+                <p>Version 1.4</p>
+                <ul>
+                  <li>Unsure wht happen to this</li>
+                </ul>
+                <p>Version 1.3 04-12-2017 Zen4All</p>
+                <ul>
+                  <li>Removed file "YOUR_ADMIN/includes/init_includes/overrides/init_sanitize.php", and replaced by "YOUR_ADMIN/includes/extra_datafiles/flexible_footer_sanitizer.php".<br>This eliminate the need of editing core files.<br> I also added additional fields, there are four in total:
+                    <ul>
+                      <li>col_header -> The column header</li>
+                      <li>page_title -> The title</li>
+                      <li>col_html_text -> The html text</li>
+                      <li>page_url -> The url</li>
+                    </ul>
+                  </li>
+                  <li>Restored the "YOUR_TEMPLATE" folder names, after they were renamed in the previous version to the writers own template name</li>
+                </ul>
+                <p>Version 1.2 06-24-2015 Nick1973</p>
+                <ul>
+                  <li>added and changed includes/init_includes/overrides/init_sanitize.php -<br />
+                    <br />
+                    Around line 214/216 depending on your editor:
+                    <br />
+                    <br />
+                    <code>$group = array('products_description', 'coupon_desc', 'file_contents', 'categories_description', 'message_html', 'banners_html_text', 'pages_html_text', 'comments', 'products_options_comment');</code><br />
+                    <br />
+                    Changed to:
+                    <br />
+                    <br />
+                    <code>$group = array('products_description', 'coupon_desc', 'file_contents', 'categories_description', 'message_html', 'banners_html_text', 'pages_html_text', 'comments', 'products_options_comment', 'col_html_text');</code><br />
+                    <br />
+                    'col_html_text' added. This ensures rendering of HTML correctly if using CK Editor or Tiny MCE.<br />
+                    <br />
+                    As described by rbarbour here https://www.zen-cart.com/showthread.php?209715-Flexible-Footer-Columns-Menu-for-1-5-x/page7
+                    on the 4th post.<br />
+                  </li>
+                </ul>
+                <p>Version 1.1 06-24-2015 Zen4All</p>
+                <ul>
+                  <li>updated includes\modules\YOUR_TEMPLATE\flexible_footer_menu.php</li>
+                  <li>updated YOUR_ADMIN\includes\languages\english\extra_definitions\flexible_footer_menu.php</li>
+                  <li>added YOUR_ADMIN\includes\languages\english\flexible_footer_menu.php</li>
+                </ul>
+              </div>
+              <div id="troubleshooting" class="tab-pane fade in">
+                If you run in any troube please check the <a class="support" href="https://www.zen-cart.com/showthread.php?216019-Flexible-Footer-Menu-Multilingual-Support-Thread" target="_blank">support thread</a> for this module.
+              </div>
+              <div id="misc" class="tab-pane fade in">
+                empty
+              </div>
+              <div id="license" class="tab-pane fade in">
+                <p><strong>Flexible Footer Menu Multilingual</strong> is released under the GNU GENERAL PUBLIC LICENSE Version 2, June 1991 (see <a href="../LICENSE" target="_blank" title="View License">LICENSE</a>)</p>
+                <p>This script is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p>
+                <p>Always backup your shop and database before making changes.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <p></p>
+        </div>
+      </div>
+    </div>
+    <script src="jscript/jquery-3.3.1.min.js"></script>
+    <script src="jscript/bootstrap.min.js"></script>
+  </body>
+</html>

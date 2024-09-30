@@ -1,0 +1,54 @@
+/**
+ *
+ * Flexible Footer Menu Multilingual
+ *
+ * @package templateSystem
+ * @copyright Copyright 2003-2007 Zen Cart Development Team
+ * @copyright Portions Copyright 2003 osCommerce
+ * 
+ * @added for version 1.0 by ZCAdditions.com (rbarbour) 4-17-2013 $
+**/
+ 
+#flex-navSupp ul {margin: 0;padding:0;list-style-type: none;text-align: center;line-height: 1.5em;}
+#flex-navSupp ul {display:block;text-align:left;}
+#flex-navSupp ul li h4 {text-align:center;}
+#flex-navSupp ul li span {display:block;text-align:center;}
+#flex-navSupp a.activePage {font-weight: bold;color: #000;}
+#flex-navSupp a:hover {font-weight: bold;text-decoration: underline;color: #000;}
+.col {float: left;}
+
+/* Example for styleing individual column blocks */
+ul#col_1 {background-color:#fff;color:#333;height:150px;}
+ul#col_2 {background-color:#c0c0c0;color:#333;height:150px;}
+ul#col_3 {background-color:#f0f;color:#333;height:150px;}
+ul#col_4 {background-color:#0ff;color:#333;height:150px;}
+ul#col_5 {background-color:#ff0;color:#333;height:150px;}
+ul#col_6 {background-color:#00f;color:#fff;height:150px;}
+ul#col_7 {background-color:#0f0;color:#333;height:150px;}
+ul#col_8 {background-color:#f00;color:#333;height:150px;}
+ul#col_9 {background-color:#000;color:#fff;height:150px;}
+
+/* Each span represents a columns width */
+.span_9_of_9 {width: 10.55%;}
+.span_8_of_9 {width: 11.94%;}
+.span_7_of_9 {width: 13.72%; }
+.span_6_of_9 {width: 16.08%; }
+.span_5_of_9 {width: 19.38%; }
+.span_4_of_9 {width: 24.35%; }
+.span_3_of_9 {width: 32.66%;}
+.span_2_of_9 {width: 49.25%; }
+.span_1_of_9 {width: 99%; }
+
+/* Changes column width at 768px, changed to be consistent with responsive code */
+@media only screen and (max-width: 768px) {
+div#flex-navSupp>div>div>ul>li {display: block; text-align:center;}
+.span_9_of_9 {width: 98%; }
+.span_8_of_9 {width: 98%; }
+.span_7_of_9 {width: 98%; }
+.span_6_of_9 {width: 98%; }
+.span_5_of_9 {width: 98%; }
+.span_4_of_9 {width: 98%; }
+.span_3_of_9 {width: 98%; }
+.span_2_of_9 {width: 98%; }
+.span_1_of_9 {width: 98%; }
+}
