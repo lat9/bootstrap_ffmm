@@ -1,8 +1,8 @@
 <?php
-
 /**
+ * Flexible Footer Menu Multilingual (for Bootstrap)
  *
- * Flexible Footer Menu Multilingual
+ * Last updated: v2.0.0
  *
  * @package admin
  * @copyright Copyright 2003-2011 Zen Cart Development Team
@@ -12,4 +12,3 @@
  *
  */
 define('FILENAME_FLEXIBLE_FOOTER_MENU', 'flexible_footer_menu');
-define('FILENAME_FLEXIBLE_FOOTER_MENU_INSTALL', 'ffmm_install');
