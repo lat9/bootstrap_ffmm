@@ -11,25 +11,25 @@ $group = [
     'col_header' => [
         'sanitizerType' => 'PRODUCT_DESC_REGEX',
         'method' => 'both',
-        'pages' => ['flexible_footer_menu'],
+        'pages' => ['flexible_footer_menu2'],
         'params' => []
     ]),
     'page_title' => [
         'sanitizerType' => 'PRODUCT_DESC_REGEX',
         'method' => 'both',
-        'pages' => ['flexible_footer_menu'],
+        'pages' => ['flexible_footer_menu2'],
         'params' => []
     ],
     'col_html_text' => [
         'sanitizerType' => 'PRODUCT_DESC_REGEX',
         'method' => 'both',
-        'pages' => ['flexible_footer_menu'],
+        'pages' => ['flexible_footer_menu2'],
         'params' => []
     ],
     'page_url' => [
         'sanitizerType' => 'PRODUCT_URL_REGEX',
         'method' => 'both',
-        'pages' => ['flexible_footer_menu'],
+        'pages' => ['flexible_footer_menu2'],
         'params' => []
     ],
 ];

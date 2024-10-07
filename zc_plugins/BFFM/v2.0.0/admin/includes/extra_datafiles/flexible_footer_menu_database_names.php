@@ -11,5 +11,5 @@
  * @added for version 1.0 by Zen4All.nl (design75) 4-17-2013 $
  *
  */
-define('TABLE_FLEXIBLE_FOOTER_MENU', DB_PREFIX . 'flexible_footer_menu');
-define('TABLE_FLEXIBLE_FOOTER_MENU_CONTENT', DB_PREFIX . 'flexible_footer_menu_content');
+define('TABLE_FLEXIBLE_FOOTER_MENU2', DB_PREFIX . 'flexible_footer_menu2');
+define('TABLE_FLEXIBLE_FOOTER_MENU_CONTENT2', DB_PREFIX . 'flexible_footer_menu_content2');

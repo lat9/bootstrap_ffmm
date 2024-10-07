@@ -1,7 +1,8 @@
 <?php
 /*
+ * Flexible Footer Menu Multilingual (for Bootstrap)
  *
- * Flexible Footer Menu Multilingual
+ * Last updated: v2.0.0
  *
  * @package admin
  * English language defines
@@ -12,8 +13,7 @@
  * @updated for version 1.1 by Zen4All.nl (design75) 6-24-2015 $
  *
  */
-
-define('TEXT_FLEXIBLE_FOOTER_MENU_HEADING_TITLE','Flexible Footer Menu Multilingual');
-define('BOX_TOOLS_FLEXIBLE_FOOTER_MENU','Flexible Footer Menu Multilingual');
-define('BOX_CONFIG_FLEXIBLE_FOOTER_MENU','Flexible Footer Menu Multilingual Config');
-define('BOX_TOOLS_FLEXIBLE_FOOTER_MENU_INSTALL','Flexible Footer Menu Install');
+$define = [
+    'BOX_TOOLS_FLEXIBLE_FOOTER_MENU2' => 'Flexible Footer Menu Multilingual II',
+];
+return $define;

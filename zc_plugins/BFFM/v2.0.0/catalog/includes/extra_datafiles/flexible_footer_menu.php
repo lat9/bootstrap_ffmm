@@ -11,5 +11,5 @@
  * Added by rbarbour (ZCAdditions.com), Flexible Footer Menu 1.1 (3)
  * Updated by Zen4All (design75) / zen4all.nl, Flexible Footer Menu 1.3
  */
-define('TABLE_FLEXIBLE_FOOTER_MENU', DB_PREFIX . 'flexible_footer_menu');
-define('TABLE_FLEXIBLE_FOOTER_MENU_CONTENT', DB_PREFIX . 'flexible_footer_menu_content');
+define('TABLE_FLEXIBLE_FOOTER_MENU2', DB_PREFIX . 'flexible_footer_menu2');
+define('TABLE_FLEXIBLE_FOOTER_MENU_CONTENT2', DB_PREFIX . 'flexible_footer_menu_content2');

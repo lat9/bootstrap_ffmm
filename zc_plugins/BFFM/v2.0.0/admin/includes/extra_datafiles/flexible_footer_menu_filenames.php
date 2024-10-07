@@ -11,4 +11,4 @@
  * @added for version 1.0 by ZCAdditions.com (rbarbour) 4-17-2013 $
  *
  */
-define('FILENAME_FLEXIBLE_FOOTER_MENU', 'flexible_footer_menu');
+define('FILENAME_FLEXIBLE_FOOTER_MENU2', 'flexible_footer_menu2');
