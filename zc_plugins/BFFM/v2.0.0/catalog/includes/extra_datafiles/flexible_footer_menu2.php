@@ -12,4 +12,4 @@
  * Updated by Zen4All (design75) / zen4all.nl, Flexible Footer Menu 1.3
  */
 define('TABLE_FLEXIBLE_FOOTER_MENU2', DB_PREFIX . 'flexible_footer_menu2');
-define('TABLE_FLEXIBLE_FOOTER_MENU_CONTENT2', DB_PREFIX . 'flexible_footer_menu_content2');
+define('TABLE_FLEXIBLE_FOOTER_CONTENT2', DB_PREFIX . 'flexible_footer_content2');

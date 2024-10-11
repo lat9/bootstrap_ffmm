@@ -13,7 +13,7 @@ $group = [
         'method' => 'both',
         'pages' => ['flexible_footer_menu2'],
         'params' => []
-    ]),
+    ],
     'page_title' => [
         'sanitizerType' => 'PRODUCT_DESC_REGEX',
         'method' => 'both',

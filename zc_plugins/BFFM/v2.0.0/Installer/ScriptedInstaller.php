@@ -40,8 +40,8 @@ class ScriptedInstaller extends ScriptedInstallBase
             $sql = "CREATE TABLE " . TABLE_FLEXIBLE_FOOTER_CONTENT2 . " (
                 page_id int(11) NOT NULL default 0,
                 language_id int(11) NOT NULL default 1,
-                page_title varchar(64) NOT NULL default '',
-                col_header varchar(64) NOT NULL default '',
+                page_title varchar(191) NOT NULL default '',
+                col_header varchar(191) NOT NULL default '',
                 col_html_text text,
                 PRIMARY KEY (page_id,language_id)
             )";
@@ -53,6 +53,15 @@ class ScriptedInstaller extends ScriptedInstallBase
         //
         if (!zen_page_key_exists('flexibleFooter2')) {
             zen_register_admin_page('flexibleFooter2', 'BOX_TOOLS_FLEXIBLE_FOOTER_MENU2', 'FILENAME_FLEXIBLE_FOOTER_MENU2', '', 'tools', 'Y');
+        }
+
+        // -----
+        // The admin/flexible_footer_menu2.php tool places any uploaded images
+        // into the site's /images/footer_images sub-directory.  Create that
+        // directory, if not already present.
+        //
+        if (!is_dir(DIR_FS_CATALOG . DIR_WS_IMAGES . 'footer_images')) {
+            mkdir(DIR_FS_CATALOG . DIR_WS_IMAGES . 'footer_images', 0755);
         }
 
         // -----
@@ -126,15 +135,15 @@ class ScriptedInstaller extends ScriptedInstallBase
 
             foreach ($ffm_install as $page_id => $menu_content) {
                 $ffm_entry = [
+                ['fieldName' => 'col_id', 'value' => $menu_content['col_id'], 'type' => 'integer'],
+                ['fieldName' => 'col_sort_order', 'value' => $menu_content['col_sort_order'], 'type' => 'integer'],
+                ['fieldName' => 'status', 'value' => $menu_content['status'], 'type' => 'integer'],
                     ['fieldName' => 'page_url', 'value' => $menu_content['page_url'], 'type' => 'string'],
                     ['fieldName' => 'col_image', 'value' => $menu_content['col_image'], 'type' => 'string'],
-                    ['fieldName' => 'status', 'value' => $menu_content['status'], 'type' => 'integer'],
-                    ['fieldName' => 'col_sort_order', 'value' => $menu_content['col_sort_order'], 'type' => 'integer'],
-                    ['fieldName' => 'col_id', 'value' => $menu_content['col_id'], 'type' => 'integer'],
                     ['fieldName' => 'date_added', 'value' => $menu_content['date_added'], 'type' => 'date'],
                 ];
                 $this->executeInstallerDbPerform(TABLE_FLEXIBLE_FOOTER_MENU2, $ffm_entry);
-                $ffm_page_id = $this->dbConn->InsertID();
+                $ffm_page_id = $this->dbConn->Insert_ID();
                 foreach ($menu_content['lang'] as $lang_id => $content) {
                     $ffm_entry = [
                         ['fieldName' => 'page_id', 'value' => $ffm_page_id, 'type' => 'integer'],
@@ -168,15 +177,15 @@ class ScriptedInstaller extends ScriptedInstallBase
         );
         foreach ($ffm as $content) {
             $ffm_entry = [
+                ['fieldName' => 'col_id', 'value' => $content['col_id'], 'type' => 'integer'],
+                ['fieldName' => 'col_sort_order', 'value' => $content['col_sort_order'], 'type' => 'integer'],
+                ['fieldName' => 'status', 'value' => $content['status'], 'type' => 'integer'],
                 ['fieldName' => 'page_url', 'value' => $content['page_url'], 'type' => 'string'],
                 ['fieldName' => 'col_image', 'value' => $content['col_image'], 'type' => 'string'],
-                ['fieldName' => 'status', 'value' => $content['status'], 'type' => 'integer'],
-                ['fieldName' => 'col_sort_order', 'value' => $content['col_sort_order'], 'type' => 'integer'],
-                ['fieldName' => 'col_id', 'value' => $content['col_id'], 'type' => 'integer'],
                 ['fieldName' => 'date_added', 'value' => $content['date_added'], 'type' => 'date'],
             ];
             $this->executeInstallerDbPerform(TABLE_FLEXIBLE_FOOTER_MENU2, $ffm_entry);
-            $ffm_page_id = $this->dbConn->InsertID();
+            $ffm_page_id = $this->dbConn->Insert_ID();
 
             $ffm_entry = [
                 ['fieldName' => 'page_id', 'value' => $ffm_page_id, 'type' => 'integer'],
@@ -207,8 +216,8 @@ class ScriptedInstaller extends ScriptedInstallBase
                 'col_sort_order' => 11,
                 'page_url' => 'index.php',
                 'col_image' => '',
-                'page_title' => '',
-                'col_header' => 'footer_images/Home.png',
+                'page_title' => 'Home',
+                'col_header' => '',
                 'col_html_text' => '',
             ],
             [
@@ -372,9 +381,9 @@ class ScriptedInstaller extends ScriptedInstallBase
                 'page_title' => '',
                 'col_header' => '',
                 'col_html_text' =>
-                    '<a href="https://twitter.com" target="_blank" class="mx-2"><i class="fa-brands fa-twitter"></i></a>' .
-                    '<a href="https://www.instagram.com" target="_blank" class="mx-2"><i class="fa-brands fa-instagram"></i></a>' .
-                    '<a href="https://www.facebook.com" target="_blank"><i class="fa-brands fa-facebook"></i></a>' .
+                    '<a href="https://twitter.com" target="_blank" class="mx-2"><i class="fa-brands fa-twitter fa-2x"></i></a>' .
+                    '<a href="https://www.instagram.com" target="_blank" class="mx-2"><i class="fa-brands fa-instagram fa-2x"></i></a>' .
+                    '<a href="https://www.facebook.com" target="_blank" class="mx-2"><i class="fa-brands fa-facebook fa-2x"></i></a>',
             ],
         ];
 
@@ -394,22 +403,22 @@ class ScriptedInstaller extends ScriptedInstallBase
 
         foreach ($samples as $sample) {
             $ffm_record =
-                $sample['page_url'] . ', ' .
-                $sample['col_image'] . ', ' .
-                '1, ',
+                "'" . $sample['page_url'] . "', " .
+                "'" . $sample['col_image'] . "', " .
+                '1, ' .
                 $sample['col_sort_order'] . ', ' .
                 $sample['col_id'] . ', ' .
                 'now()';
             $ffm_record_sql = sprintf($ffm_sql, $ffm_record);
             $this->executeInstallerSql($ffm_record_sql);
-            $ffm_page_id = $this->dbConn->InsertID();
+            $ffm_page_id = $this->dbConn->Insert_ID();
 
             foreach ($active_languages as $language_id) {
                 $ffm_content =
                     "$ffm_page_id, $language_id, " .
-                    $sample['page_title'] . ', ' .
-                    $sample['col_header'] . ', ' .
-                    $sample['col_html_text'];
+                    "'" . $sample['page_title'] . "', " .
+                    "'" . $sample['col_header'] . "', " .
+                    "'" . $sample['col_html_text'] . "'";
                 $ffm_content_record_sql = sprintf($ffm_content_sql, $ffm_content);
                 $this->executeInstallerSql($ffm_content_record_sql);
             }
