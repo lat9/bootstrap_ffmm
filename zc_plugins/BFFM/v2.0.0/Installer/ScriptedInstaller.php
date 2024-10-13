@@ -1,6 +1,6 @@
 <?php
 // -----
-// Admin-level installation script for the "encapsulated" Flexible Footer Menu Multi-Lingual
+// Admin-level installation script for the "encapsulated" Flexible Footer Menu Multilingual
 // for the Bootstrap template, by lat9.
 //
 // Copyright (C) 2024, Vinos de Frutas Tropicales.
@@ -21,7 +21,11 @@ class ScriptedInstaller extends ScriptedInstallBase
         define('TABLE_FLEXIBLE_FOOTER_MENU2', DB_PREFIX . 'flexible_footer_menu2');
         define('TABLE_FLEXIBLE_FOOTER_CONTENT2', DB_PREFIX . 'flexible_footer_content2');
 
+        $tables_created = 0;
+
         if (!$sniffer->table_exists(TABLE_FLEXIBLE_FOOTER_MENU2)) {
+            $tables_created++;
+
             $sql = "CREATE TABLE " . TABLE_FLEXIBLE_FOOTER_MENU2 . " (
                 page_id int(11) NOT NULL AUTO_INCREMENT,
                 col_id int(11) NOT NULL DEFAULT 0,
@@ -37,6 +41,8 @@ class ScriptedInstaller extends ScriptedInstallBase
         }
 
         if (!$sniffer->table_exists(TABLE_FLEXIBLE_FOOTER_CONTENT2)) {
+            $tables_created++;
+
             $sql = "CREATE TABLE " . TABLE_FLEXIBLE_FOOTER_CONTENT2 . " (
                 page_id int(11) NOT NULL default 0,
                 language_id int(11) NOT NULL default 1,
@@ -62,6 +68,14 @@ class ScriptedInstaller extends ScriptedInstallBase
         //
         if (!is_dir(DIR_FS_CATALOG . DIR_WS_IMAGES . 'footer_images')) {
             mkdir(DIR_FS_CATALOG . DIR_WS_IMAGES . 'footer_images', 0755);
+        }
+
+        // -----
+        // If both of the tables required by this plugin are currently present, nothing
+        // further to be done.
+        //
+        if ($tables_created === 0) {
+            return true;
         }
 
         // -----

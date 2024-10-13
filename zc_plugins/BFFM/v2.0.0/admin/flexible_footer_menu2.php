@@ -116,6 +116,25 @@ switch ($action) {
         zen_redirect(zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, $page_id_parameter));
         break;
 
+    case 'delete':
+        if ($page_id === 0) {
+            zen_redirect(zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2));
+        }
+
+        $ffm_delete = $db->Execute(
+            "SELECT f.*, fc.*
+               FROM " . TABLE_FLEXIBLE_FOOTER_MENU2 . " AS f
+                    LEFT JOIN " . TABLE_FLEXIBLE_FOOTER_CONTENT2 . " AS fc
+                        ON fc.page_id = f.page_id
+                       AND fc.language_id = " . (int)$_SESSION['languages_id'] . "
+                     WHERE f.page_id = $page_id
+                     LIMIT 1"
+        );
+        if ($ffm_delete->EOF) {
+            zen_redirect(zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2));
+        }
+        break;
+
     case 'delete_confirm':
         $db->Execute(
             "DELETE FROM " . TABLE_FLEXIBLE_FOOTER_MENU2 . "
@@ -166,6 +185,11 @@ switch ($action) {
 <html <?= HTML_PARAMS ?>>
 <head>
     <?php require DIR_WS_INCLUDES . 'admin_html_head.php'; ?>
+    <style>
+.d-block { display: inline-block; }
+.img-fluid { max-width: 100%; height: auto; }
+.ffm-selected { background-color: #bbb!important; }
+    </style>
 <?php
 if ($editor_handler !== '') {
     include $editor_handler; 
@@ -293,14 +317,6 @@ if ($action === 'new') {
         </div>
 
         <div class="form-group">
-            <?= zen_draw_label(TEXT_DELETE_IMAGE, 'image_delete', 'class="col-sm-3 control-label"') ?>
-            <div class="col-sm-9 col-md-6">
-                <label class="radio-inline"><?= zen_draw_radio_field('image_delete', '0', true) . TEXT_DELETE_IMAGE_NO ?></label>
-                <label class="radio-inline"><?= zen_draw_radio_field('image_delete', '1', false) . TEXT_DELETE_IMAGE_YES ?></label>
-            </div>
-        </div>
-
-        <div class="form-group">
                 <?= zen_draw_label(TEXT_LINKAGE, 'page_url', 'class="col-sm-3 control-label"') ?>
             <div class="col-sm-9 col-md-6">
                 <span class="help-block"><?= TEXT_LINKAGE_TIP ?></span>
@@ -374,27 +390,26 @@ if ($action === 'new') {
         </div>
 
         <div class="row">
-            <div class="col-md-9 configurationColumnLeft">
-                <table class="table table-hover">
-                    <thead>
-                        <tr class="dataTableHeadingRow">
-                            <th class="dataTableHeadingContent"><?= TABLE_COLUMN_ID ?></th>
-                            <th class="dataTableHeadingContent"><?= TABLE_SORT_ORDER ?></th>
-                            <th class="dataTableHeadingContent"><?= FFM_TABLE_TITLE_HEADER ?></th>
-                            <th class="dataTableHeadingContent"><?= FFM_TABLE_TITLE_PAGE_NAME ?></th>
-                            <th class="dataTableHeadingContent"><?= FFM_TABLE_TITLE_IMAGE ?></th>
-                            <th class="dataTableHeadingContent"><?= TABLE_HEADER_LINK ?></th>
-                            <th class="dataTableHeadingContent text-center"><?= TABLE_STATUS ?></th>
-                            <th class="dataTableHeadingContent">&nbsp;</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <table id="ffm-table" class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th><?= TABLE_COLUMN_ID ?></th>
+                        <th><?= TABLE_SORT_ORDER ?></th>
+                        <th><?= FFM_TABLE_TITLE_HEADER ?></th>
+                        <th><?= FFM_TABLE_TITLE_PAGE_NAME ?></th>
+                        <th><?= FFM_TABLE_TITLE_IMAGE ?></th>
+                        <th><?= TABLE_HEADER_LINK ?></th>
+                        <th class="text-center"><?= TABLE_STATUS ?></th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
 <?php
     $flexfooter_query_raw =
         "SELECT ffm.page_id, ffmc.language_id, ffm.col_image, ffm.status, ffm.page_url,
                 ffm.col_sort_order, ffm.col_id, ffmc.page_title, ffmc.col_header, ffmc.col_html_text
            FROM " . TABLE_FLEXIBLE_FOOTER_MENU2 . " ffm
-                INNER JOIN " . TABLE_FLEXIBLE_FOOTER_CONTENT2 . " ffmc
+                LEFT JOIN " . TABLE_FLEXIBLE_FOOTER_CONTENT2 . " ffmc
                     ON ffmc.page_id = ffm.page_id
                    AND ffmc.language_id = " . (int)$_SESSION['languages_id'] . "
           ORDER BY col_id ASC, col_sort_order ASC";
@@ -407,123 +422,134 @@ if ($action === 'new') {
         }
         if (isset($footerInfo) && is_object($footerInfo) && $item['page_id'] == $footerInfo->page_id) {
 ?>
-                        <tr id="defaultSelected" class="dataTableRowSelected" onclick="document.location.href='<?= zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, $page_id_parameter) ?>'">
+                    <tr id="defaultSelected" tabindex="0">
 <?php
         } else {
 ?>
-                        <tr class="dataTableRow" onclick="document.location.href='<?= zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, 'page_id=' . $item['page_id']) ?>'">
+                    <tr>
 <?php
         }
 ?>
-                            <td class="dataTableContent"><?= $item['col_id'] ?></td>
-                            <td class="dataTableContent"><?= $item['col_sort_order'] ?></td>
-                            <td class="dataTableContent"><?= $item['col_header'] ?></td>
-                            <td class="dataTableContent"><?= $item['page_title'] ?></td>
-                            <td class="dataTableContent">
-                                <?= zen_image(HTTPS_SERVER . DIR_WS_HTTPS_CATALOG . DIR_WS_IMAGES . $item['col_image'], '', '', '', 'class="mx-auto d-block img-fluid"') ?>
-                            </td>
-                            <td class="dataTableContent"><?= $item['page_url'] ?></td>
-                            <td class="dataTableContent text-center">
+                        <td><?= $item['col_id'] ?></td>
+                        <td><?= $item['col_sort_order'] ?></td>
+                        <td><?= $item['col_header'] ?? TEXT_NONE ?></td>
+                        <td><?= $item['page_title'] ?? TEXT_NONE ?></td>
+                        <td>
+                            <?= zen_image(HTTPS_SERVER . DIR_WS_HTTPS_CATALOG . DIR_WS_IMAGES . $item['col_image'], '', '', '', 'class="mx-auto d-block img-fluid"') ?>
+                        </td>
+                        <td><?= $item['page_url'] ?></td>
+                        <td class="text-center">
 <?php
         if ($item['status'] === '1') {
 ?>
-                                <a href="<?= zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, 'page_id=' . $item['page_id'] . '&action=setflag&flag=0') ?>">
-                                    <?= zen_icon('enabled', '', '2x', false, true) ?>
-                                </a>
+                            <a href="<?= zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, 'page_id=' . $item['page_id'] . '&action=setflag&flag=0') ?>">
+                                <?= zen_icon('enabled', '', '2x', false, true) ?>
+                            </a>
 <?php
         } else {
 ?>
-                                <a href="<?= zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, 'page_id=' . $item['page_id'] . '&action=setflag&flag=1') ?>">
-                                    <?= zen_icon('disabled', '', '2x', false, true) ?>
-                                </a>
+                            <a href="<?= zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, 'page_id=' . $item['page_id'] . '&action=setflag&flag=1') ?>">
+                                <?= zen_icon('disabled', '', '2x', false, true) ?>
+                            </a>
 <?php
         }
 ?>
-                            </td>
-                            <td class="dataTableContent text-right">
-<?php
-        if (isset($footerInfo) && is_object($footerInfo) && $item['page_id'] == $footerInfo->page_id) {
-            echo zen_icon('caret-right', '', '2x', true);
-        } else {
-            echo '<a href="' . zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, 'page_id=' . $item['page_id']) . '">' . zen_icon('circle-info', '', '2x', true) . '</a>';
-        }
-?>
-                            </td>
-                        </tr>
+                        </td>
+                        <td class="text-right">
+                            <a href="<?= zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, 'page_id=' . $item['page_id'] . '&action=new') ?>" class="btn btn-primary" role="button">
+                                <?= IMAGE_EDIT ?>
+                            </a>&nbsp;
+                            <a href="<?= zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, 'page_id=' . $item['page_id'] . '&action=delete') ?>" class="btn btn-warning" role="button">
+                                <?= IMAGE_DELETE ?>
+                            </a>
+                        </td>
+                    </tr>
 <?php
     }
 ?>
-                        <tr>
-                            <td colspan="8" class="text-right">
-                                <a href="<?= zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, 'action=new') ?>" class="btn btn-primary" role="button">
-                                    <?= IMAGE_INSERT ?>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="col-md-3 configurationColumnRight">
+                    <tr>
+                        <td colspan="8" class="text-right">
+                            <a href="<?= zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, 'action=new') ?>" class="btn btn-primary" role="button">
+                                <?= IMAGE_INSERT ?>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 <?php
-    $heading = [];
-    $contents = [];
-    switch ($action) {
-        case 'delete':
-            $heading[] = ['text' => '<h4>' . $footerInfo->col_header . $footerInfo->page_title . '</h4>'];
-
-            $contents = ['form' => zen_draw_form('pages', FILENAME_FLEXIBLE_FOOTER_MENU2, 'action=delete_confirm') . zen_draw_hidden_field('page_id', $footerInfo->page_id)];
-            $contents[] = [
-                'align' => 'center',
-                'text' => TEXT_INFO_DELETE_INTRO,
-            ];
-            $contents[] = ['text' => '<br><b>' . $footerInfo->page_title . '</b>'];
-            if ($footerInfo->col_image) {
-                $contents[] = ['text' => '<br>' . zen_draw_checkbox_field('delete_image', 'on', true) . ' ' . FFM_TEXT_DELETE_IMAGE . '?'];
-            }
-            $contents[] = [
-                'align' => 'center',
-                'text' => '<br><button type="submit" class="btn btn-danger">' . IMAGE_DELETE . '</button> <a href="' . zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, 'page_id=' . $page_id) . '" class="btn btn-default" role="button">' . IMAGE_CANCEL . '</a>'
-            ];
-            break;
-
-        default:
-            if (is_object($footerInfo)) {
-                $heading[] = ['text' => '<h4>' . $footerInfo->col_header . $footerInfo->page_title . '</h4>'];
-
-                $contents[] = [
-                    'align' => 'center',
-                    'text' => '<a href="' . zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, 'page_id=' . $footerInfo->page_id . '&action=new') . '" class="btn btn-primary" role="button">' . IMAGE_EDIT . '</a> <a href="' . zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, 'page_id=' . $footerInfo->page_id . '&action=delete') . '" class="btn btn-warning">' . IMAGE_DELETE . '</a>'
-                ];
-
-                $contents[] = ['text' => '<br>' . BOX_INFO_STATUS . ' ' . ($footerInfo->status == 0 ? ICON_STATUS_RED : ICON_STATUS_GREEN)];
-
-                if (!empty($footerInfo->col_image)) {
-                    $contents[] = ['text' => '<br>' . zen_image(DIR_WS_CATALOG_IMAGES . $footerInfo->col_image, $footerInfo->page_title) . '<br>' . $footerInfo->page_title];
-                } else {
-                    $contents[] = ['text' => '<br>' . BOX_INFO_NO_IMAGE];
-                }
-
-                $contents[] = ['text' => '<br>' . BOX_INFO_TEXT . '<br> ' . $footerInfo->col_html_text];
-            }
-            break;
-    }
-
-    if (!empty($heading) && !empty($contents)) {
-        $box = new box();
-        echo $box->infoBox($heading, $contents);
-    }
+    if ($action === 'delete' && $page_id !== 0) {
+        $delete_fields = $ffm_delete->fields;
 ?>
+        <div id="ffm-delete-modal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <?= zen_draw_form('pages', FILENAME_FLEXIBLE_FOOTER_MENU2, 'action=delete_confirm') . zen_draw_hidden_field('page_id', (string)$page_id) ?>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><?= TEXT_INFO_DELETE_INTRO ?></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="list-group">
+                            <div class="row list-group-item">
+                                <div class="col-md-3 h5 list-group-item-heading"><?= TABLE_COLUMN_ID ?>:</div>
+                                <div class="col-md-9 list-group-item-text"><?= $delete_fields['col_id'] ?></div>
+                            </div>
+                            <div class="row list-group-item">
+                                <div class="col-md-3 h5 list-group-item-heading"><?= TABLE_SORT_ORDER ?>:</div>
+                                <div class="col-md-9 list-group-item-text"><?= $delete_fields['col_sort_order'] ?></div>
+                            </div>
+                            <div class="row list-group-item">
+                                <div class="col-md-3 h5 list-group-item-heading"><?= FFM_TABLE_TITLE_HEADER ?>:</div>
+                                <div class="col-md-9 list-group-item-text"><?= $delete_fields['col_header'] ?? TEXT_NONE ?></div>
+                            </div>
+                            <div class="row list-group-item">
+                                <div class="col-md-3 h5 list-group-item-heading"><?= FFM_TABLE_TITLE_PAGE_NAME ?>:</div>
+                                <div class="col-md-9 list-group-item-text"><?= $delete_fields['page_title'] ?? TEXT_NONE ?></div>
+                            </div>
+                            <div class="row list-group-item">
+                                <div class="col-md-3 h5 list-group-item-heading"><?= FFM_TABLE_TITLE_IMAGE ?>:</div>
+                                <div class="col-md-9 list-group-item-text">
+                                    <?= zen_image(HTTPS_SERVER . DIR_WS_HTTPS_CATALOG . DIR_WS_IMAGES . $delete_fields['col_image'], '', '', '', 'class="mx-auto d-block img-fluid"') ?>
+                                </div>
+                            </div>
+                            <div class="row list-group-item">
+                                <div class="col-md-3 h5 list-group-item-heading"><?= TABLE_HEADER_LINK ?>:</div>
+                                <div class="col-md-9 list-group-item-text">
+                                    <?= $delete_fields['page_url'] ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button type="submit" class="btn btn-danger me-2"><?= IMAGE_DELETE ?></button>
+                        <a href="<?= zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, $page_id_parameter) ?>" class="btn btn-default" role="button"><?= IMAGE_CANCEL ?></a>
+                    </div>
+                </div>
+                <?= '</form>' ?>
             </div>
         </div>
+        <script>
+$(function() {
+    $('#ffm-delete-modal').modal('show');
+});
+        </script>
 <?php
+    }
 }
 ?>
     </div>
 
-    <!-- footer //-->
     <?php require DIR_WS_INCLUDES . 'footer.php'; ?>
-    <!-- footer_eof //-->
+    <script>
+$(function() {
+    $('#defaultSelected').focus().addClass('ffm-selected');
+
+    $('#ffm-table > tbody > tr').on('click', function() {
+        $('#ffm-table > tbody > tr').removeClass('ffm-selected');
+        $(this).addClass('ffm-selected');
+    });
+});
+    </script>
   </body>
 </html>
 <?php require DIR_WS_INCLUDES . 'application_bottom.php'; ?>
