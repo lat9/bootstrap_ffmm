@@ -25,9 +25,6 @@ $define = [
     'ICON_STATUS_GREEN' => 'Displaying on footer menu',
     'ICON_STATUS_RED' => 'Not displaying on footer menu',
     'BUTTON_NEW' => 'Add a new Column Page',
-    'BOX_INFO_STATUS' => '<strong>Page Status:&nbsp;</strong>',
-    'BOX_INFO_NO_IMAGE' => '<strong><font color="red">No Image Uploaded</font></strong>',
-    'BOX_INFO_TEXT' => '<strong>Column Text/Comments:&nbsp;</strong>',
     'SUCCESS_PAGE_STATUS_UPDATED' => 'A footer-menu status was updated.',
     'SUCCESS_PAGE_UPDATED' => 'A footer-menu entry was updated.',
 
@@ -48,7 +45,6 @@ $define = [
     'TEXT_COLUMN_TIP' => 'Indicate the footer column in which this element resides.',
     'TEXT_COLUMN_SORT' => 'Sort Order:',
     'TEXT_COLUMN_SORT_TIP' => 'Indicate the sort-order for this element within its respective column.',
-    'FFM_TEXT_DELETE_IMAGE' => 'Delete Image',
     'FFM_TABLE_TITLE_HEADER' => 'Header',
     'FFM_TABLE_TITLE_PAGE_NAME' => 'Page Name',
     'FFM_TABLE_TITLE_IMAGE' => 'Image',

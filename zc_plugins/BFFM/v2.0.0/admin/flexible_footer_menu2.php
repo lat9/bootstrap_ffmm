@@ -190,11 +190,6 @@ switch ($action) {
 .img-fluid { max-width: 100%; height: auto; }
 .ffm-selected { background-color: #bbb!important; }
     </style>
-<?php
-if ($editor_handler !== '') {
-    include $editor_handler; 
-}
-?>
 </head>
 <body>
 <!-- header //-->
@@ -353,7 +348,7 @@ if ($action === 'new') {
                         '100%',
                         '20',
                         htmlspecialchars($col_html_text, ENT_COMPAT, CHARSET, true),
-                        ' class="editorHook form-control"')
+                        ' class="form-control"')
                     ?>
                 </div>
 <?php
@@ -375,17 +370,7 @@ if ($action === 'new') {
                     <?= IMAGE_INSERT ?>
                 </a>
             </div>
-            <div class="col-md-3 text-right">
-                <?=
-                    zen_draw_form('set_editor_form', FILENAME_FLEXIBLE_FOOTER_MENU2, '', 'get', 'class="form-horizontal"') .
-                        zen_draw_label(TEXT_EDITOR_INFO, 'reset_editor', 'class="col-sm-6 col-md-4 control-label"') .
-                        '<div class="col-sm-6 col-md-4">' .
-                            zen_draw_pull_down_menu('reset_editor', $editors_pulldown, $current_editor_key, 'onchange="this.form.submit();" class="form-control"') .
-                        '</div>' .
-                        zen_hide_session_id() .
-                        zen_draw_hidden_field('action', 'set_editor') .
-                    '</form>'
-                ?>
+            <div class="col-md-3">
             </div>
         </div>
 
@@ -467,15 +452,19 @@ if ($action === 'new') {
 <?php
     }
 ?>
-                    <tr>
-                        <td colspan="8" class="text-right">
-                            <a href="<?= zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, 'action=new') ?>" class="btn btn-primary" role="button">
-                                <?= IMAGE_INSERT ?>
-                            </a>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
+        </div>
+
+        <div class="row">
+            <div class="col-md-9 text-right">
+                <a href="<?= zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, 'action=new') ?>" class="btn btn-primary" role="button">
+                    <?= IMAGE_INSERT ?>
+                </a>
+            </div>
+            <div class="col-md-3">
+            </div>
+        </div>
 <?php
     if ($action === 'delete' && $page_id !== 0) {
         $delete_fields = $ffm_delete->fields;
