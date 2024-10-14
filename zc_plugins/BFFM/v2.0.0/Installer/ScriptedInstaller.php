@@ -31,7 +31,6 @@ class ScriptedInstaller extends ScriptedInstallBase
                 col_id int(11) NOT NULL DEFAULT 0,
                 col_sort_order int(11) NOT NULL DEFAULT 0,
                 status int(1) NOT NULL DEFAULT 0,
-                page_url varchar(191) DEFAULT NULL,
                 col_image varchar(191) NOT NULL DEFAULT '',
                 date_added datetime NOT NULL DEFAULT '0001-01-01 00:00:00',
                 last_update datetime DEFAULT NULL,
@@ -46,6 +45,7 @@ class ScriptedInstaller extends ScriptedInstallBase
             $sql = "CREATE TABLE " . TABLE_FLEXIBLE_FOOTER_CONTENT2 . " (
                 page_id int(11) NOT NULL default 0,
                 language_id int(11) NOT NULL default 1,
+                page_url varchar(191) DEFAULT NULL,
                 page_title varchar(191) NOT NULL default '',
                 col_header varchar(191) NOT NULL default '',
                 col_html_text text,
@@ -149,10 +149,9 @@ class ScriptedInstaller extends ScriptedInstallBase
 
             foreach ($ffm_install as $page_id => $menu_content) {
                 $ffm_entry = [
-                ['fieldName' => 'col_id', 'value' => $menu_content['col_id'], 'type' => 'integer'],
-                ['fieldName' => 'col_sort_order', 'value' => $menu_content['col_sort_order'], 'type' => 'integer'],
-                ['fieldName' => 'status', 'value' => $menu_content['status'], 'type' => 'integer'],
-                    ['fieldName' => 'page_url', 'value' => $menu_content['page_url'], 'type' => 'string'],
+                    ['fieldName' => 'col_id', 'value' => $menu_content['col_id'], 'type' => 'integer'],
+                    ['fieldName' => 'col_sort_order', 'value' => $menu_content['col_sort_order'], 'type' => 'integer'],
+                    ['fieldName' => 'status', 'value' => $menu_content['status'], 'type' => 'integer'],
                     ['fieldName' => 'col_image', 'value' => $menu_content['col_image'], 'type' => 'string'],
                     ['fieldName' => 'date_added', 'value' => $menu_content['date_added'], 'type' => 'date'],
                 ];
@@ -162,6 +161,7 @@ class ScriptedInstaller extends ScriptedInstallBase
                     $ffm_entry = [
                         ['fieldName' => 'page_id', 'value' => $ffm_page_id, 'type' => 'integer'],
                         ['fieldName' => 'language_id', 'value' => $content['language_id'], 'type' => 'integer'],
+                        ['fieldName' => 'page_url', 'value' => $menu_content['page_url'], 'type' => 'string'],
                         ['fieldName' => 'page_title', 'value' => $content['page_title'], 'type' => 'string'],
                         ['fieldName' => 'col_header', 'value' => $content['colheader'], 'type' => 'string'],
                         ['fieldName' => 'col_html_text', 'value' => $content['col_html_text'], 'type' => 'string'],
@@ -194,7 +194,6 @@ class ScriptedInstaller extends ScriptedInstallBase
                 ['fieldName' => 'col_id', 'value' => $content['col_id'], 'type' => 'integer'],
                 ['fieldName' => 'col_sort_order', 'value' => $content['col_sort_order'], 'type' => 'integer'],
                 ['fieldName' => 'status', 'value' => $content['status'], 'type' => 'integer'],
-                ['fieldName' => 'page_url', 'value' => $content['page_url'], 'type' => 'string'],
                 ['fieldName' => 'col_image', 'value' => $content['col_image'], 'type' => 'string'],
                 ['fieldName' => 'date_added', 'value' => $content['date_added'], 'type' => 'date'],
             ];
@@ -204,6 +203,7 @@ class ScriptedInstaller extends ScriptedInstallBase
             $ffm_entry = [
                 ['fieldName' => 'page_id', 'value' => $ffm_page_id, 'type' => 'integer'],
                 ['fieldName' => 'language_id', 'value' => $content['language_id'], 'type' => 'integer'],
+                ['fieldName' => 'page_url', 'value' => $content['page_url'], 'type' => 'string'],
                 ['fieldName' => 'page_title', 'value' => $content['page_title'], 'type' => 'string'],
                 ['fieldName' => 'col_header', 'value' => $content['colheader'], 'type' => 'string'],
                 ['fieldName' => 'col_html_text', 'value' => $content['col_html_text'], 'type' => 'string'],
@@ -406,18 +406,17 @@ class ScriptedInstaller extends ScriptedInstallBase
 
         $ffm_sql =
             "INSERT INTO " . TABLE_FLEXIBLE_FOOTER_MENU2 . "
-                (page_url, col_image, status, col_sort_order, col_id, date_added)
+                (col_image, status, col_sort_order, col_id, date_added)
              VALUES
                 (%s)";
         $ffm_content_sql =
             "INSERT INTO " . TABLE_FLEXIBLE_FOOTER_CONTENT2 . "
-                (page_id, language_id, page_title, col_header, col_html_text)
+                (page_id, language_id, page_url, page_title, col_header, col_html_text)
              VALUES
                 (%s)";
 
         foreach ($samples as $sample) {
             $ffm_record =
-                "'" . $sample['page_url'] . "', " .
                 "'" . $sample['col_image'] . "', " .
                 '1, ' .
                 $sample['col_sort_order'] . ', ' .
@@ -430,6 +429,7 @@ class ScriptedInstaller extends ScriptedInstallBase
             foreach ($active_languages as $language_id) {
                 $ffm_content =
                     "$ffm_page_id, $language_id, " .
+                    "'" . $sample['page_url'] . "', " .
                     "'" . $sample['page_title'] . "', " .
                     "'" . $sample['col_header'] . "', " .
                     "'" . $sample['col_html_text'] . "'";

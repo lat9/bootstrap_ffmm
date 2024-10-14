@@ -42,7 +42,6 @@ switch ($action) {
         $sql_data_array = [
             'col_id' => $col_id,
             'col_sort_order' => $col_sort_order,
-            'page_url' => $page_url,
         ];
 
         if ($action === 'insert') {
@@ -54,12 +53,14 @@ switch ($action) {
             zen_db_perform(TABLE_FLEXIBLE_FOOTER_MENU2, $sql_data_array);
             $page_id = zen_db_insert_id();
 
+            $page_url_array = zen_db_prepare_input($_POST['page_url']);
             $page_title_array = zen_db_prepare_input($_POST['page_title']);
             $col_header_array = zen_db_prepare_input($_POST['col_header']);
             $col_html_text_array = zen_db_prepare_input($_POST['col_html_text']);
             foreach ($languages as $next_lang) {
                 $language_id = $next_lang['id'];
                 $sql_data_array = [
+                    'page_url' => $page_url_array[$language_id],
                     'page_title' => $page_title_array[$language_id],
                     'col_header' => $col_header_array[$language_id],
                     'col_html_text' => $col_html_text_array[$language_id],
@@ -75,12 +76,14 @@ switch ($action) {
             $sql_data_array = array_merge($sql_data_array, $insert_sql_data);
             zen_db_perform(TABLE_FLEXIBLE_FOOTER_MENU2, $sql_data_array, 'update', 'page_id = ' . (int)$page_id);
 
+            $page_url_array = zen_db_prepare_input($_POST['page_url']);
             $page_title_array = zen_db_prepare_input($_POST['page_title']);
             $col_header_array = zen_db_prepare_input($_POST['col_header']);
             $col_html_text_array = zen_db_prepare_input($_POST['col_html_text']);
             foreach ($languages as $next_lang) {
                 $language_id = $next_lang['id'];
                 $sql_data_array = [
+                    'page_url' => $page_url_array[$language_id],
                     'page_title' => $page_title_array[$language_id],
                     'col_header' => $col_header_array[$language_id],
                     'col_html_text' => $col_html_text_array[$language_id]
@@ -145,6 +148,19 @@ switch ($action) {
               WHERE page_id = " . (int)$page_id
         );
         $messageStack->add_session(SUCCESS_PAGE_REMOVED, 'success');
+        zen_redirect(zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2));
+        break;
+
+    case 'delete_all_confirm':
+        if (!empty($_POST)) {
+            $db->Execute(
+                "TRUNCATE TABLE " . TABLE_FLEXIBLE_FOOTER_MENU2
+            );
+            $db->Execute(
+                "TRUNCATE TABLE " . TABLE_FLEXIBLE_FOOTER_CONTENT2
+            );
+            $messageStack->add_session(SUCCESS_ALL_ITEMS_REMOVED, 'success');
+        }
         zen_redirect(zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2));
         break;
 
@@ -280,14 +296,14 @@ if ($action === 'new') {
             $page_title = $pageTitle->fields['page_title'] ?? '';
         }
 ?>
-                    <div class="input-group">
-                        <span class="input-group-addon"><?= zen_image(DIR_WS_CATALOG_LANGUAGES . $next_lang['directory'] . '/images/' . $next_lang['image'], $next_lang['name']) ?></span>
-                        <?= zen_draw_input_field(
-                            'page_title[' . $next_lang['id'] . ']',
-                            htmlspecialchars($page_title, ENT_COMPAT, CHARSET, true),
-                            zen_set_field_length(TABLE_FLEXIBLE_FOOTER_CONTENT2, 'page_title') . ' class="form-control"')
-                        ?>
-                    </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><?= zen_image(DIR_WS_CATALOG_LANGUAGES . $next_lang['directory'] . '/images/' . $next_lang['image'], $next_lang['name']) ?></span>
+                    <?= zen_draw_input_field(
+                        'page_title[' . $next_lang['id'] . ']',
+                        htmlspecialchars($page_title, ENT_COMPAT, CHARSET, true),
+                        zen_set_field_length(TABLE_FLEXIBLE_FOOTER_CONTENT2, 'page_title') . ' class="form-control"')
+                    ?>
+                </div>
 <?php
     }
 ?>
@@ -312,10 +328,35 @@ if ($action === 'new') {
         </div>
 
         <div class="form-group">
-                <?= zen_draw_label(TEXT_LINKAGE, 'page_url', 'class="col-sm-3 control-label"') ?>
+            <?= zen_draw_label(TEXT_LINKAGE, 'page_url', 'class="col-sm-3 control-label"') ?>
             <div class="col-sm-9 col-md-6">
                 <span class="help-block"><?= TEXT_LINKAGE_TIP ?></span>
-                <?= zen_draw_input_field('page_url', $footerInfo->page_url ?? '', zen_set_field_length(TABLE_FLEXIBLE_FOOTER_MENU2, 'page_url') . ' class="form-control"') ?>
+<?php
+    foreach ($languages as $next_lang) {
+        if ($page_id === 0) {
+            $page_url = '';
+        } else {
+            $colTextQuery =
+                "SELECT page_url
+                   FROM " . TABLE_FLEXIBLE_FOOTER_CONTENT2 . "
+                  WHERE page_id = " . (int)$page_id . "
+                    AND language_id = " . (int)$next_lang['id'] . "
+                  LIMIT 1";
+            $colText = $db->Execute($colTextQuery);
+            $page_url = $colText->fields['page_url'] ?? '';
+        }
+?>
+                <div class="input-group">
+                    <span class="input-group-addon"><?= zen_image(DIR_WS_CATALOG_LANGUAGES . $next_lang['directory'] . '/images/' . $next_lang['image'], $next_lang['name']) ?></span>
+                    <?= zen_draw_input_field(
+                        'page_url[' . $next_lang['id'] . ']',
+                        htmlspecialchars($page_url, ENT_COMPAT, CHARSET, true),
+                        zen_set_field_length(TABLE_FLEXIBLE_FOOTER_CONTENT2, 'page_url') . ' class="form-control"')
+                    ?>
+                </div>
+<?php
+    }
+?>
             </div>
         </div>
 
@@ -324,8 +365,6 @@ if ($action === 'new') {
             <div class="col-sm-9 col-md-6">
                 <span class="help-block"><?= TEXT_ADD_TEXT_TIP ?></span>
 <?php
-    $col_html_text = '';
-
     foreach ($languages as $next_lang) {
         if ($page_id === 0) {
             $col_html_text = '';
@@ -364,13 +403,16 @@ if ($action === 'new') {
 <?php
 } else {
 ?>
-        <div class="row">
-            <div class="col-md-9 text-right">
+        <div class="row text-center">
+            <div class="btn-group">
                 <a href="<?= zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, 'action=new') ?>" class="btn btn-primary" role="button">
                     <?= IMAGE_INSERT ?>
                 </a>
             </div>
-            <div class="col-md-3">
+            <div class="btn-group">
+                <a href="<?= zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, 'action=delete_all') ?>" class="btn btn-danger" role="button">
+                    <?= BUTTON_DELETE_ALL ?>
+                </a>
             </div>
         </div>
 
@@ -391,7 +433,7 @@ if ($action === 'new') {
                 <tbody>
 <?php
     $flexfooter_query_raw =
-        "SELECT ffm.page_id, ffmc.language_id, ffm.col_image, ffm.status, ffm.page_url,
+        "SELECT ffm.page_id, ffmc.language_id, ffm.col_image, ffm.status, ffmc.page_url,
                 ffm.col_sort_order, ffm.col_id, ffmc.page_title, ffmc.col_header, ffmc.col_html_text
            FROM " . TABLE_FLEXIBLE_FOOTER_MENU2 . " ffm
                 LEFT JOIN " . TABLE_FLEXIBLE_FOOTER_CONTENT2 . " ffmc
@@ -456,17 +498,53 @@ if ($action === 'new') {
             </table>
         </div>
 
-        <div class="row">
-            <div class="col-md-9 text-right">
+        <div class="row text-center">
+            <div class="btn-group">
                 <a href="<?= zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, 'action=new') ?>" class="btn btn-primary" role="button">
                     <?= IMAGE_INSERT ?>
                 </a>
             </div>
-            <div class="col-md-3">
+            <div class="btn-group">
+                <a href="<?= zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2, 'action=delete_all') ?>" class="btn btn-danger" role="button">
+                    <?= BUTTON_DELETE_ALL ?>
+                </a>
             </div>
         </div>
 <?php
-    if ($action === 'delete' && $page_id !== 0) {
+    if ($action === 'delete_all') {
+?>
+        <div id="ffm-delete-all-modal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <?= zen_draw_form('pages', FILENAME_FLEXIBLE_FOOTER_MENU2, 'action=delete_all_confirm') ?>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><?= TEXT_INFO_DELETE_ALL_INTRO ?></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center"><?= TEXT_INFO_DELETE_ALL ?></p>
+                    </div>
+                    <div class="modal-footer text-center">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-danger"><?= IMAGE_DELETE ?></button>
+                        </div>
+                        <div class="btn-group">
+                            <a href="<?= zen_href_link(FILENAME_FLEXIBLE_FOOTER_MENU2) ?>" class="btn btn-default" role="button">
+                                <?= IMAGE_CANCEL ?>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <?= '</form>' ?>
+            </div>
+        </div>
+        <script>
+$(function() {
+    $('#ffm-delete-all-modal').modal('show');
+});
+        </script>
+<?php
+    } elseif ($action === 'delete' && $page_id !== 0) {
         $delete_fields = $ffm_delete->fields;
 ?>
         <div id="ffm-delete-modal" class="modal fade" role="dialog">

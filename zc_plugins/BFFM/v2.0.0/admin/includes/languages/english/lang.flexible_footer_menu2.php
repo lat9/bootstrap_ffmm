@@ -24,7 +24,9 @@ $define = [
     'TABLE_HEADER_LINK' => 'Link',
     'ICON_STATUS_GREEN' => 'Displaying on footer menu',
     'ICON_STATUS_RED' => 'Not displaying on footer menu',
+    'BUTTON_DELETE_ALL' => 'Delete All?',
     'BUTTON_NEW' => 'Add a new Column Page',
+    'SUCCESS_ALL_ITEMS_REMOVED' => 'All footer-menu items were removed.',
     'SUCCESS_PAGE_STATUS_UPDATED' => 'A footer-menu status was updated.',
     'SUCCESS_PAGE_UPDATED' => 'A footer-menu entry was updated.',
 
@@ -37,6 +39,8 @@ $define = [
     'TEXT_USE_IMAGE' => 'Upload Image:',
     'TEXT_USE_IMAGE_TIP' => '(Option 3) Use an Image to Display Column Header/Sub Header or Page Name instead of text.',
     'TEXT_INFO_DELETE_INTRO' => 'Are you sure you want to delete this menu item?',
+    'TEXT_INFO_DELETE_ALL' => 'This action cannot be undone. If you require a copy of these menu items, make sure you have a current database backup before continuing!',
+    'TEXT_INFO_DELETE_ALL_INTRO' => 'Are you sure you want to delete all the menu items?',
     'TEXT_LINKAGE' => 'Add a Link:',
     'TEXT_LINKAGE_TIP' => 'Add a Link URL to the Column Header/Sub Header, Page Name or Image.<br>INTERNAL link URL Example: index.php?main_page=reviews<br/>EXTERNAL link URL Example: https://www.zcadditions.com <b>(https://)</b> strips INTERNAL link URL and auto opens in new tab/window.',
     'TEXT_ADD_TEXT' => 'Column Text/Comments:',

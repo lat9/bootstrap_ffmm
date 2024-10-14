@@ -27,7 +27,7 @@ foreach ($languages as $code => $lang_info) {
 $session_language_id = (int)$_SESSION['languages_id'];
 
 $footer_query = $db->Execute(
-    "SELECT f.col_id, f.col_sort_order AS `sort`, f.page_url AS `link`, f.col_image AS `image`,
+    "SELECT f.col_id, f.col_sort_order AS `sort`, fc.page_url AS `link`, f.col_image AS `image`,
             fc.page_title AS `title`, fc.col_header AS `header`, fc.col_html_text AS `text`,
             f.page_id AS `id`, fc.language_id
        FROM " . TABLE_FLEXIBLE_FOOTER_MENU2 . " f
