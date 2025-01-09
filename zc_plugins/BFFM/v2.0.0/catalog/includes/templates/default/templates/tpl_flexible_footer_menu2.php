@@ -66,9 +66,12 @@ foreach ($ffmm_content as $col_id => $column_data) {
                 <div class="mt-2 ffm-text"><?= $column_values['text'] ?></div>
 <?php
         }
+
+        if (($column_values['header'] . $column_values['title'] . $column_values['image']) !== '') {
 ?>
             </li>
 <?php
+        }
     }
 ?>
         </ul>
