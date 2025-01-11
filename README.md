@@ -4,7 +4,7 @@ This `encapsulated` plugin provides a means for a Zen Cart admin to create a mul
 
 ## Zen Cart Links
 
-**Support Thread:** https://www.zen-cart.com/showthread.php?TBD
+**Support Thread:** https://www.zen-cart.com/showthread.php?230538-Flexible-Footer-Menu-Multilingual-for-Bootstrap&p=1405247
 
 **Download Link:** https://www.zen-cart.com/downloads.php?do=file&id=TBD
 
