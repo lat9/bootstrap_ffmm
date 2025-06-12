@@ -2,7 +2,7 @@
 /*
  * Flexible Footer Menu Multilingual (for Bootstrap)
  *
- * Last updated: v2.0.0
+ * Last updated: v2.0.1
  *
  * @package admin
  * English language defines
@@ -27,6 +27,8 @@ $define = [
     'BUTTON_DELETE_ALL' => 'Delete All?',
     'BUTTON_NEW' => 'Add a new Column Page',
     'SUCCESS_ALL_ITEMS_REMOVED' => 'All footer-menu items were removed.',
+    'SUCCESS_PAGE_INSERTED' => 'A footer-menu entry was inserted.',
+    'SUCCESS_PAGE_REMOVED' => 'A footer-menu entry was removed.',
     'SUCCESS_PAGE_STATUS_UPDATED' => 'A footer-menu status was updated.',
     'SUCCESS_PAGE_UPDATED' => 'A footer-menu entry was updated.',
 
