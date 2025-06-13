@@ -2,7 +2,7 @@
 /**
  * Flexible Footer Menu Multilingual (for Bootstrap)
  *
- * Last updated: v2.0.0
+ * Last updated: v2.0.1
  *
  * @package admin
  * @copyright Copyright 2003-2014 Zen Cart Development Team
@@ -106,7 +106,7 @@ switch ($action) {
                       WHERE page_id = " . (int)$page_id . "
                       LIMIT 1"
                 );
-            } elseif ($col_image->filename === 'none' || $_POST['image_delete'] === '1') {
+            } elseif ($col_image->filename === 'none' || ($_POST['image_delete'] ?? 0) === '1') {
                 $db->Execute(
                     "UPDATE " . TABLE_FLEXIBLE_FOOTER_MENU2 . "
                         SET col_image = ''
