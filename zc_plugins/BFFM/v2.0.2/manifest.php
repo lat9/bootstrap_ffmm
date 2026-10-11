@@ -1,6 +1,6 @@
 <?php
 return [
-    'pluginVersion' => 'v2.0.1',
+    'pluginVersion' => 'v2.0.2',
     'pluginName' => 'Bootstrap: Flexible Footer Menu Multilingual',
     'pluginDescription' => 'This plugin enables a Zen Cart admin to configure a multi-column multilingual footer menu for the Bootstrap template.',
     'pluginAuthor' => 'Vinos de Frutas Tropicales (lat9)',
