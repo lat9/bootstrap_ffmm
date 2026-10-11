@@ -8,4 +8,4 @@ This `encapsulated` plugin provides a means for a Zen Cart admin to create a mul
 
 **Download Link:** https://www.zen-cart.com/downloads.php?do=file&id=2397
 
-Refer to the [readme.html](https://htmlpreview.github.io/?https://github.com/lat9/bootstrap_ffmm/blob/main/readme.html) for additional information.
+Refer to the [Wiki](https://github.com/lat9/bootstrap_ffmm/wiki) articles for additional information.
