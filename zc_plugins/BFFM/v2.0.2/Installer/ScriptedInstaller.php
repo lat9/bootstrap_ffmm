@@ -3,9 +3,9 @@
 // Admin-level installation script for the "encapsulated" Flexible Footer Menu Multilingual
 // for the Bootstrap template, by lat9.
 //
-// Copyright (C) 2024, Vinos de Frutas Tropicales.
+// Copyright (C) 2024-2026, Vinos de Frutas Tropicales.
 //
-// Last updated: v2.0.0 (new)
+// Last updated: v2.0.2
 //
 use Zencart\PluginSupport\ScriptedInstaller as ScriptedInstallBase;
 
@@ -163,7 +163,7 @@ class ScriptedInstaller extends ScriptedInstallBase
                         ['fieldName' => 'language_id', 'value' => $content['language_id'], 'type' => 'integer'],
                         ['fieldName' => 'page_url', 'value' => $menu_content['page_url'], 'type' => 'string'],
                         ['fieldName' => 'page_title', 'value' => $content['page_title'], 'type' => 'string'],
-                        ['fieldName' => 'col_header', 'value' => $content['colheader'], 'type' => 'string'],
+                        ['fieldName' => 'col_header', 'value' => $content['col_header'], 'type' => 'string'],
                         ['fieldName' => 'col_html_text', 'value' => $content['col_html_text'], 'type' => 'string'],
                     ];
                     $this->executeInstallerDbPerform(TABLE_FLEXIBLE_FOOTER_CONTENT2, $ffm_entry);
@@ -205,7 +205,7 @@ class ScriptedInstaller extends ScriptedInstallBase
                 ['fieldName' => 'language_id', 'value' => $content['language_id'], 'type' => 'integer'],
                 ['fieldName' => 'page_url', 'value' => $content['page_url'], 'type' => 'string'],
                 ['fieldName' => 'page_title', 'value' => $content['page_title'], 'type' => 'string'],
-                ['fieldName' => 'col_header', 'value' => $content['colheader'], 'type' => 'string'],
+                ['fieldName' => 'col_header', 'value' => $content['col_header'], 'type' => 'string'],
                 ['fieldName' => 'col_html_text', 'value' => $content['col_html_text'], 'type' => 'string'],
             ];
             $this->executeInstallerDbPerform(TABLE_FLEXIBLE_FOOTER_CONTENT2, $ffm_entry);
